@@ -1,0 +1,7 @@
+# .NET build artifacts
+server/bin/
+server/obj/
+
+# Editor/OS cruft
+.vs/
+.DS_Store
