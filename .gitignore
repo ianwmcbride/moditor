@@ -5,3 +5,5 @@ server/obj/
 # Editor/OS cruft
 .vs/
 .DS_Store
+
+server/appsettings.Development.json
