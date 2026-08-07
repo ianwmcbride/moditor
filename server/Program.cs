@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+using Moditor.Api.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Allow Vite to access the API
@@ -10,6 +13,10 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+
+builder.Services.AddDbContext<ModitorDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ModitorDb")
+));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
