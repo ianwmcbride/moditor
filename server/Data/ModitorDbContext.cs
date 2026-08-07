@@ -3,10 +3,8 @@ using Moditor.Api.Models;
 
 namespace Moditor.Api.Data;
 
-public class ModitorDbContext : DbContext
+public class ModitorDbContext(DbContextOptions<ModitorDbContext> options) : DbContext(options)
 {
-    public ModitorDbContext(DbContextOptions<ModitorDbContext> options) : base(options) { }
-
     public DbSet<Mod> Mods => Set<Mod>();
     public DbSet<ModRequirement> ModRequirements => Set<ModRequirement>();
     public DbSet<ModConflict> ModConflicts => Set<ModConflict>();
