@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Moditor.Api.Data;
+using Moditor.Api.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,6 @@ builder.Services.AddDbContext<ModitorDbContext>(options =>
 ));
 
 // Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
@@ -34,28 +34,52 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// GET mods, ordered by load order
+app.MapGet("/api/mods", async (ModitorDbContext db) =>
+    await db.Mods.OrderBy(m => m.LoadOrder).ToListAsync());
 
-app.MapGet("/weatherforecast", () =>
+// GET mod by ID
+app.MapGet("/api/mods/{id}", async (int id, ModitorDbContext db) =>
+    await db.Mods.FindAsync(id) is Mod mod
+        ? Results.Ok(mod)
+        : Results.NotFound());
+
+// POST new mod
+app.MapPost("/api/mods", async (Mod mod, ModitorDbContext db) =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    db.Mods.Add(mod);
+    await db.SaveChangesAsync();
+    return Results.Created($"/api/mods/{mod.Id}", mod);
+});
+
+// PUT update mod by ID
+app.MapPut("/api/mods/{id}", async (int id, Mod input, ModitorDbContext db) =>
+{
+    var mod = await db.Mods.FindAsync(id);
+    if (mod is null) return Results.NotFound();
+
+    mod.NexusId = input.NexusId;
+    mod.Name = input.Name;
+    mod.Category = input.Category;
+    mod.HasFomod = input.HasFomod;
+    mod.LoadOrder = input.LoadOrder;
+    mod.Notes = input.Notes;
+    // IsValid intentionally untouched — only the future scan endpoint sets this.
+
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
+
+// DELETE mod by ID
+app.MapDelete("/api/mods/{id}", async (int id, ModitorDbContext db) =>
+{
+    var mod = await db.Mods.FindAsync(id);
+    if (mod is null) return Results.NotFound();
+
+    db.Mods.Remove(mod);
+
+    await db.SaveChangesAsync();
+    return Results.NoContent();
+});
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
