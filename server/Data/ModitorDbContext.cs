@@ -7,7 +7,7 @@ public class ModitorDbContext(DbContextOptions<ModitorDbContext> options) : DbCo
 {
     public DbSet<Mod> Mods => Set<Mod>();
     public DbSet<ModRequirement> ModRequirements => Set<ModRequirement>();
-    public DbSet<ModConflict> ModConflicts => Set<ModConflict>();
+    public DbSet<ModCompatibility> ModConflicts => Set<ModCompatibility>();
     public DbSet<ModOrderRule> ModOrderRules => Set<ModOrderRule>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,12 +22,12 @@ public class ModitorDbContext(DbContextOptions<ModitorDbContext> options) : DbCo
             .HasForeignKey(r => r.RequiredModId)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<ModConflict>()
+        modelBuilder.Entity<ModCompatibility>()
             .HasOne(c => c.ModA).WithMany()
             .HasForeignKey(c => c.ModIdA)
             .OnDelete(DeleteBehavior.Restrict);
 
-        modelBuilder.Entity<ModConflict>()
+        modelBuilder.Entity<ModCompatibility>()
             .HasOne(c => c.ModB).WithMany()
             .HasForeignKey(c => c.ModIdB)
             .OnDelete(DeleteBehavior.Restrict);

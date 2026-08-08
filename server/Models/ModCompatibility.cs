@@ -1,6 +1,6 @@
 namespace Moditor.Api.Models;
 
-public class ModConflict
+public class ModCompatibility
 {
     public int Id { get; set; }
 
@@ -10,5 +10,7 @@ public class ModConflict
     public int ModIdB { get; set; }
     public Mod ModB { get; set; } = null!;
 
-    public string? Notes { get; set; }
+    public bool IsCompatible { get; set; }
+
+    public bool HasPatch { get; set; }
 }
