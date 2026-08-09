@@ -8,5 +8,4 @@ public class ModRequirement
     public Mod Mod { get; set; } = null!;
 
     public int RequiredModId { get; set; }
-    public Mod RequiredMod { get; set; } = null!;
 }

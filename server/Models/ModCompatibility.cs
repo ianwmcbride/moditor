@@ -12,5 +12,7 @@ public class ModCompatibility
 
     public bool IsCompatible { get; set; }
 
-    public bool HasPatch { get; set; }
+    public int? PatchNexusId { get; set; }
+
+    public string? Notes { get; set; }
 }
