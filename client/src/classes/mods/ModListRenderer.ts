@@ -1,15 +1,24 @@
 import createElement from "../../functions";
 import Mod from "./Mod";
 
+export type ColumnDefinition<T, K extends keyof T = keyof T> = {
+    label: string;
+    key: K;
+    formatter?: (value: T[K], item: T) => string;
+    idPrefix?: string;
+};
+
 export default class ModListRenderer {
 
     private thead: HTMLTableSectionElement;
+    private columns: ColumnDefinition<Mod>[];
 
-    constructor(columns: string[]) {
+    constructor(columns: ColumnDefinition<Mod>[]) {
+        this.columns = columns;
         this.thead = this.createTableHeader(columns);
     }
 
-    private createTableHeader(columns: string[]): HTMLTableSectionElement {
+    private createTableHeader(columns: ColumnDefinition<Mod>[]): HTMLTableSectionElement {
         const head = createElement(
             "thead", "", { id: "mod-list-header" }
         ) as HTMLTableSectionElement;
@@ -20,9 +29,11 @@ export default class ModListRenderer {
         
         columns.forEach(column => {
             const th = createElement(
-                "th", "", { id: `th-${column}`, scope: "col" }
+                "th",
+                "",
+                { id: column.idPrefix ? `${column.idPrefix}-header` : `th-${column.label}`, scope: "col" }
             ) as HTMLTableCellElement;
-            th.textContent = column;
+            th.textContent = column.label;
             headRow.appendChild(th);
         });
 
@@ -38,33 +49,25 @@ export default class ModListRenderer {
 
         mods.forEach(mod => {
             const row = createElement(
-                "tr", "mod-list-row", { id: `mod-${mod.Id}`}
+                "tr",
+                ["mod-list-row", mod.isValid ? "mod-valid" : "mod-invalid"],
+                { id: `mod-${mod.Id}` }
             ) as HTMLTableRowElement;
 
-            const nameCell = createElement(
-                "td", "mod-list-cell", { id: `mod-name-${mod.Id}` }
-            ) as HTMLTableCellElement;
-            nameCell.textContent = mod.name;
+            this.columns.forEach(column => {
+                const cell = createElement(
+                    "td",
+                    "mod-list-cell",
+                    { id: column.idPrefix ? `${column.idPrefix}-${mod.Id}` : `mod-${String(column.key)}-${mod.Id}` }
+                ) as HTMLTableCellElement;
 
-            const categoryCell = createElement(
-                "td", "mod-list-cell", { id: `mod-category-${mod.Id}` }
-            ) as HTMLTableCellElement;
-            categoryCell.textContent = mod.category;
+                const rawValue = mod[column.key];
+                cell.textContent = column.formatter
+                    ? column.formatter(rawValue, mod)
+                    : String(rawValue ?? "");
 
-            const fomodCell = createElement(
-                "td", "mod-list-cell", { id: `mod-fomod-${mod.Id}` }
-            ) as HTMLTableCellElement;
-            fomodCell.textContent = mod.hasFomod ? "Yes" : "No";
-
-            const loadOrderCell = createElement(
-                "td", "mod-list-cell", { id: `mod-loadorder-${mod.Id}` }
-            ) as HTMLTableCellElement;
-            loadOrderCell.textContent = mod.loadOrder.toString();
-
-            row.appendChild(nameCell);
-            row.appendChild(categoryCell);
-            row.appendChild(fomodCell);
-            row.appendChild(loadOrderCell);
+                row.appendChild(cell);
+            });
 
             body.appendChild(row);
         })
