@@ -5,6 +5,7 @@ namespace Moditor.Api.Data;
 
 public class ModitorDbContext(DbContextOptions<ModitorDbContext> options) : DbContext(options)
 {
+    public DbSet<Game> Games => Set<Game>();
     public DbSet<Mod> Mods => Set<Mod>();
     public DbSet<ModRequirement> ModRequirements => Set<ModRequirement>();
     public DbSet<ModCompatibility> ModCompatibility => Set<ModCompatibility>();
@@ -12,6 +13,11 @@ public class ModitorDbContext(DbContextOptions<ModitorDbContext> options) : DbCo
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Mod>()
+            .HasOne(m => m.Game).WithMany()
+            .HasForeignKey(m => m.GameId)
+            .OnDelete(DeleteBehavior.Cascade);
+            
         modelBuilder.Entity<ModRequirement>()
             .HasOne(r => r.Mod).WithMany()
             .HasForeignKey(r => r.ModId)
