@@ -6,19 +6,25 @@
  * @param attributes - An optional object containing key-value pairs of attributes to set on the created element (e.g., { id: 'myDiv', class: 'myClass' }).
  * @returns HTMLElement
  */
-export default function createElement(
-    tag: string,
-    classes?: string | string[],
+export default function createElement
+(
+    tag: string, 
+    classes?: string | string[], 
     attributes?: { [key: string]: string }
-): HTMLElement {
+)
+: HTMLElement 
+{
     const element = document.createElement(tag);
 
-    if (classes !== undefined && classes !== null) {
+    if (classes !== undefined && classes !== null && classes !== "")
+    {
         element.className = Array.isArray(classes) ? classes.join(" ") : classes;
     }
 
-    if (attributes) {
-        for (const [key, value] of Object.entries(attributes)) {
+    if (attributes)
+    {
+        for (const [key, value] of Object.entries(attributes))
+        {
             element.setAttribute(key, value);
         }
     }

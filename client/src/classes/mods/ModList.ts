@@ -1,13 +1,13 @@
-import createElement from "../../functions";
 import Mod from "./Mod";
-import ModListRenderer from "./ModListRenderer";
+import ModListUI from "./ModListUI";
 
-export default class ModList {
-
+export default class ModList 
+{
     private container: HTMLDivElement;
-    private listRenderer: ModListRenderer;
+    private listRenderer: ModListUI;
 
-    mods: Mod[] = [
+    mods: Mod[] = 
+    [
         // Sample mods for demonstration purposes
         new Mod(1, "nexus-001", "SkyMods", "Graphics", true, 1, "High-resolution textures"),
         new Mod(2, "nexus-002", "BetterAI", "Gameplay", false, 2, "Smarter NPC behavior"),
@@ -21,33 +21,26 @@ export default class ModList {
         new Mod(10, "nexus-010", "QuestTracker", "Utility", true, 10, "Quest tracking improvements")
     ];
 
-    constructor(container: HTMLDivElement, renderer: ModListRenderer) {
+    constructor(container: HTMLDivElement, renderer: ModListUI)
+    {
         this.container = container;
         this.listRenderer = renderer;
     }
 
-    public add(mod: Mod): void {
+    public add(mod: Mod): void
+    {
         this.mods.push(mod);
         this.render();
     }
 
-    public remove(modId: number): void {
+    public remove(modId: number): void
+    {
         this.mods = this.mods.filter(m => m.Id !== modId);
         this.render();
     }
 
-    public render(): void {
-        this.container.innerHTML = ""; // Clear existing content
-
-        if (this.mods.length === 0) {
-            const p = createElement("p", "", { id: "no-mods-message" });
-            p.textContent = "I'm useless without mods!";
-            this.container.appendChild(p);
-            return;
-        }
-        
-        this.container.appendChild(this.listRenderer.render(this.mods));
-
-        return;
+    public render(): void
+    {
+        this.container.appendChild(this.listRenderer.render(this.container, this.mods));
     }
 }
