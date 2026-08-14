@@ -8,7 +8,8 @@ export type Compatibility =
 export default class Mod
 {
     Id: number;
-    nexusId: string;
+    nexusId: number;
+    gameId: number;
     name: string;
     category: string;
     hasFomod: boolean;
@@ -19,7 +20,8 @@ export default class Mod
 
     constructor (
         ID: number,
-        nexusId: string,
+        nexusId: number,
+        gameId: number,
         name: string,
         category: string,
         hasFomod: boolean,
@@ -30,6 +32,7 @@ export default class Mod
     {
         this.Id = ID;
         this.nexusId = nexusId;
+        this.gameId = gameId;
         this.name = name;
         this.category = category;
         this.hasFomod = hasFomod;
