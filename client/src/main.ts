@@ -5,18 +5,14 @@ import type Mod from "./classes/mods/Mod";
 
 const app = document.getElementById("app");
 
-if (!app) {
+if (!app)
+{
     document.body.innerHTML = "<h1>Error: App container not found</h1>";
     throw new Error("App container not found");
 }
 
-const tableColumns: ColumnDefinition<Mod>[] = [
-    // { 
-    //     label: "Status", 
-    //     key: "isValid", 
-    //     formatter: (value) => value ? Icon.Checkmark() : Icon.Xmark(),
-    //     idPrefix: "th-status" 
-    // },
+const tableColumns: ColumnDefinition<Mod>[] = 
+[
     { 
         label: "Name", 
         key: "name", 
@@ -49,9 +45,9 @@ const tableColumns: ColumnDefinition<Mod>[] = [
 const modList = new ModList(app as HTMLDivElement, new ModListUI(tableColumns));
 
 // For demostration only
-if (modList.mods.length > 8) {
-    modList.mods[3].isValid = true; 
-    modList.mods[6].isValid = true;
+if (modList.mods.length > 8) 
+{
+    [0, 1, 3, 4, 5, 8].forEach(i => modList.mods[i].isValid = true);
 }
 
 modList.render();
