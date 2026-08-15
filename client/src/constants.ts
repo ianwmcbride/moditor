@@ -1,0 +1,1 @@
+export const GAME_COVER_PATH = "/covers/"
