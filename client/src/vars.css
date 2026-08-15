@@ -1,0 +1,13 @@
+:root {
+    /* Colors */
+    --primary-color: #55b0ff;
+    --primary-color-dark: #41a6ff;
+    --primary-color-light: #66b8ff;
+    --primary-color-semi: rgba(85, 176, 255, 0.5);
+    --secondary-color: #ac78ff;
+    --black: #212121;
+    --black-light: #2c2c2c;
+    --black-dark: #1a1a1a;
+    --white: #eee;
+    --primary-font: 'Arial', 'sans-serif';
+}
