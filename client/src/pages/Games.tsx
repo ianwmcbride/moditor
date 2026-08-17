@@ -1,3 +1,6 @@
+import '../index.css';
+import '../Games.css';
+
 import GameTile from "../components/GameTile"
 import Header from "../components/Header"
 import gameCover from "../functions"
@@ -12,9 +15,12 @@ export default function Games() {
     return (
         <>
             <Header {...[]}/>
-            <ul id="game-list">
-                {games.map(g => <GameTile {...g} key={g.id}/>)}
-            </ul>
+            <main id="games">
+                <h2>- Select Game -</h2>
+                <ul id="game-list">
+                    {games.map(g => <GameTile {...g} key={g.id}/>)}
+                </ul>
+            </main>
         </>
     )
 }

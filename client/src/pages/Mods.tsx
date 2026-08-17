@@ -1,3 +1,5 @@
+import '../index.css';
+
 import Mod from '../classes/Mod'
 import Header from '../components/Header'
 import ModListItem from '../components/ModListItem';

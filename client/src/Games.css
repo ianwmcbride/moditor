@@ -1,0 +1,80 @@
+h2
+{
+    margin: 2rem;
+}
+
+#game-list
+{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+
+    .game-tile
+    {
+        position: relative;
+        list-style-type: none;
+        width: 250px;
+
+        /* h3
+        {
+            border-top: 1px solid var(--primary-color);
+            border-bottom: 1px solid var(--primary-color);
+        } */
+
+        h4
+        {
+            font-weight: normal;
+        }
+        
+        img
+        {
+            width: 250px;
+        }
+
+        .game-tile-mod-count
+        {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            color: var(--primary-color);
+            font-size: 0.8em;
+            background-color: rgba(17, 17, 17, 0.95);
+            padding: 12px;
+            border-radius: 8px;
+            /* border: 1px solid var(--primary-color); */
+        }
+
+        .game-tile-title
+        {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(17, 17, 17, 0.95);
+            color: var(--primary-color);
+            font-weight: bold;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        svg
+        {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+        }
+    }
+
+    .game-tile:hover
+    {
+        cursor: pointer;
+        transform: scale(1.01);
+        transition: all 0.1s;
+    }
+}
+
