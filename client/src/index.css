@@ -41,6 +41,7 @@ main
     h2
     {
         text-align: center;
+        margin: 2rem;
         color: var(--primary-text);
     }
 }
