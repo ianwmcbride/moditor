@@ -2,7 +2,7 @@ import type Mod from "../classes/Mod";
 
 export default function ModListItem(mod: Mod) {
     return (
-        <tr id={"mod-" + mod.Id}>
+        <tr id={"mod-" + mod.Id} key={mod.Id}>
             <td className="mod-list-cell mod-list-name">
                 {mod.name}
             </td>

@@ -3,22 +3,20 @@ import '../Games.css';
 
 import GameTile from "../components/GameTile"
 import Header from "../components/Header"
-import gameCover from "../functions"
-import type { Game } from "../types"
+import Game from '../classes/Game';
 
-export default function Games() {
-    const games: Game[] = [
-        {id: 1, title: "Skyrim", pic: gameCover("skyrim-square.png"), modCount: 420},
-        {id: 2, title: "Cyberpunk 2077", pic: gameCover("cyberpunk2077-square.jpg"), modCount: 69}
-    ]
+type GamesProps = {
+    games: Game[];
+}
 
+export default function Games({games}: GamesProps) {
     return (
         <>
-            <Header {...[]}/>
+            <Header />
             <main id="games">
                 <h2>- Select Game -</h2>
                 <ul id="game-list">
-                    {games.map(g => <GameTile {...g} key={g.id}/>)}
+                    {games.map(g => <GameTile game={g} key={g.getId()}/>)}
                 </ul>
             </main>
         </>

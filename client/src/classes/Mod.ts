@@ -14,9 +14,12 @@ export default class Mod
     category: string;
     hasFomod: boolean;
     loadOrder: number;
-    notes: string;
+    notes: string[];
     isValid: boolean;
+    scanned: boolean;
     compatibility?: Compatibility;
+    requires: Mod[] = [];
+    requiredBy: Mod[] = [];
 
     constructor (
         ID: number,
@@ -26,8 +29,9 @@ export default class Mod
         category: string,
         hasFomod: boolean,
         loadOrder: number,
-        notes: string,
-        isValid: boolean = false
+        notes: string[],
+        isValid: boolean = true,
+        scanned: boolean = false
     ) 
     {
         this.Id = ID;
@@ -39,5 +43,6 @@ export default class Mod
         this.loadOrder = loadOrder;
         this.notes = notes;
         this.isValid = isValid;
+        this.scanned = scanned;
     }
 }
